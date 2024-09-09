@@ -17,8 +17,8 @@ func initLogger() *zap.Logger {
 	return logger
 }
 
-func initDatabase(dsn string, logger *zap.Logger) *sql.DB {
-	db, err := sql.Open("mysql", dsn)
+func initDatabase(urlDb string, logger *zap.Logger) *sql.DB {
+	db, err := sql.Open("mysql", urlDb)
 	if err != nil {
 		logger.Fatal(err.Error())
 	}
