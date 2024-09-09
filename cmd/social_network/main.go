@@ -21,17 +21,17 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	urlDb := getEnv("DSN", UrlDb)
-	addressServer := getEnv("ADDRESS", DefaultAddressServer)
+	urlDb := getEnv("DB_URL", UrlDb)
+	addressServer := getEnv("ADDRESS_SERVER", DefaultAddressServer)
 
 	logger := initLogger()
-	database := initDatabase(urlDb, logger) // TODO: need to add dsn
+	database := initDatabase(urlDb, logger)
 
 	profileRepository := repositories.NewProfileRepository(database, logger)
 	profileService := services.NewProfileService(&profileRepository)
 	profileController := controllers.NewProfileController(&profileService, logger)
 
-	restServer := servers.NewRESTServer(addressServer, nil, &profileController, logger) // TODO: need to add address
+	restServer := servers.NewRESTServer(addressServer, nil, &profileController, logger)
 
 	var wg sync.WaitGroup
 	wg.Add(2)
